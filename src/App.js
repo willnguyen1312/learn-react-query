@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import { useQuery } from "react-query";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  const queryInfo = useQuery("pokemon", async () => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    return axios
+      .get("https://pokeapi.co/api/v2/pokemon")
+      .then((res) => res.data.results);
+  });
+
+  return queryInfo.isLoading ? (
+    "Loading..."
+  ) : queryInfo.isError ? (
+    queryInfo.error.message
+  ) : (
+    <div>
+      {queryInfo.data.map((result) => {
+        return <div key={result.name}>{result.name}</div>;
+      })}
     </div>
   );
 }
