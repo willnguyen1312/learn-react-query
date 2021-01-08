@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useReducer } from "react";
 import { useQuery } from "react-query";
 import { ReactQueryDevtools } from "react-query-devtools";
 
@@ -13,7 +14,9 @@ function Pokemon() {
         .then((res) => res.data.results);
     },
     {
-      refetchOnWindowFocus: true,
+      // refetchOnWindowFocus: true,
+      // staleTime: 1000,
+      // cacheTime: 3000,
     }
   );
 
@@ -33,9 +36,11 @@ function Pokemon() {
 }
 
 function App() {
+  const [show, toggle] = useReducer((d) => !d, true);
   return (
     <>
-      <Pokemon />
+      <button onClick={toggle}>{show ? "Hide" : "Show"}</button>
+      {show ? <Pokemon /> : null}
       <ReactQueryDevtools />
     </>
   );
