@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useQuery } from "react-query";
+import { ReactQueryDevtools } from "react-query-devtools";
 
-function App() {
+function Pokemon() {
   const queryInfo = useQuery("pokemon", async () => {
     await new Promise((res) => setTimeout(res, 1000));
 
@@ -20,6 +21,15 @@ function App() {
         return <div key={result.name}>{result.name}</div>;
       })}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <Pokemon />
+      <ReactQueryDevtools />
+    </>
   );
 }
 
