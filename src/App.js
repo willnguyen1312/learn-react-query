@@ -3,9 +3,9 @@ import { useReducer } from "react";
 import { useQuery } from "react-query";
 import { ReactQueryDevtools } from "react-query-devtools";
 
-function Pokemon() {
+function Pokemon({ queryKey }) {
   const queryInfo = useQuery(
-    "pokemon",
+    queryKey,
     async () => {
       await new Promise((res) => setTimeout(res, 1000));
 
@@ -40,7 +40,8 @@ function App() {
   return (
     <>
       <button onClick={toggle}>{show ? "Hide" : "Show"}</button>
-      {show ? <Pokemon /> : null}
+      {show ? <Pokemon queryKey="pokemon1" /> : null}
+      {show ? <Pokemon queryKey="pokemon1" /> : null}
       <ReactQueryDevtools />
     </>
   );
