@@ -3,13 +3,19 @@ import { useQuery } from "react-query";
 import { ReactQueryDevtools } from "react-query-devtools";
 
 function Pokemon() {
-  const queryInfo = useQuery("pokemon", async () => {
-    await new Promise((res) => setTimeout(res, 1000));
+  const queryInfo = useQuery(
+    "pokemon",
+    async () => {
+      await new Promise((res) => setTimeout(res, 1000));
 
-    return axios
-      .get("https://pokeapi.co/api/v2/pokemon")
-      .then((res) => res.data.results);
-  });
+      return axios
+        .get("https://pokeapi.co/api/v2/pokemon")
+        .then((res) => res.data.results);
+    },
+    {
+      refetchOnWindowFocus: true,
+    }
+  );
 
   return queryInfo.isLoading ? (
     "Loading..."
@@ -20,6 +26,8 @@ function Pokemon() {
       {queryInfo.data.map((result) => {
         return <div key={result.name}>{result.name}</div>;
       })}
+
+      {queryInfo.isFetching ? "Updating..." : null}
     </div>
   );
 }
